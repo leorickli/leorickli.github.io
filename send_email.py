@@ -20,7 +20,7 @@ def send_email():
     msg.set_content(message)
 
     # Send the email
-    with smtplib.SMTP('your-smtp-server.com', 587) as smtp:
+    with smtplib.SMTP('smtp.gmail.com, 587) as smtp:
         smtp.starttls()
         smtp.login('engleonardomoreira@gmail.com', 'gspxahxeeqfdnudc')  # Replace with your actual email credentials
         smtp.send_message(msg)
