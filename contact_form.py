@@ -1,21 +1,31 @@
 import smtplib
 from email.message import EmailMessage
+from flask import Flask, request
 
-# Get the form data
-name = input("Name: ")
-email = input("Email: ")
-subject = input("Subject: ")
-message = input("Message: ")
+app = Flask(__name__)
 
-# Create the email message
-msg = EmailMessage()
-msg['From'] = email
-msg['To'] = 'engleonardomoreira@gmail.com'
-msg['Subject'] = subject
-msg.set_content(message)
+@app.route('/send_email', methods=['POST'])
+def send_email():
+    # Get the form data
+    name = request.form.get('name')
+    email = request.form.get('email')
+    subject = request.form.get('subject')
+    message = request.form.get('message')
 
-# Send the email
-with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
-    smtp.starttls()
-    smtp.login('engleonardomoreira@gmail.com', 'gspxahxeeqfdnudc')
-    smtp.send_message(msg)
+    # Create the email message
+    msg = EmailMessage()
+    msg['From'] = email
+    msg['To'] = 'engleonardomoreira@gmail.com'  # Replace with the actual recipient email address
+    msg['Subject'] = subject
+    msg.set_content(message)
+
+    # Send the email
+    with smtplib.SMTP('your-smtp-server.com', 587) as smtp:
+        smtp.starttls()
+        smtp.login('engleonardomoreira@gmail.com', 'gspxahxeeqfdnudc')  # Replace with your actual email credentials
+        smtp.send_message(msg)
+
+    return 'Email sent successfully!'
+
+if __name__ == '__main__':
+    app.run()
